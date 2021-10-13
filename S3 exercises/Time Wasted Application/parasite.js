@@ -1,23 +1,28 @@
-let counter =0;
+let counter = 0;
 
-window.onload = function(){
+window.onload = function () {
     searchMovie();
- }
-
-function searchMovie(){
-
-    fetch("http://www.omdbapi.com/?t=MADAGASCAR&apikey=2c9d6532")
-.then(response => response.json())
-.then(data=>{
-    console.log(data);
-    console.log(data.Title);
-    showMovie(data)
-})
 }
 
-function showMovie(data){
-    let movie = 
-    `
+function searchMovie() {
+    document.getElementById('searchform').addEventListener('submit', e => {
+        e.preventDefault();
+
+        let title = document.getElementById('inputTitle').value;
+
+        fetch(`http://www.omdbapi.com/?t=${title}&apikey=2c9d6532`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                console.log(data.Title);
+                showMovie(data)
+            })
+    })
+}
+
+function showMovie(data) {
+    let movie =
+        `
     <div class="card mb-3" style="max-width: 540px;">
     <div class="row no-gutters">
         <div class="col-md-4">
@@ -31,7 +36,6 @@ function showMovie(data){
                 <p class="card-text"><small class="text-muted">${data.Year}</small></p>
                 <p class="card-text"><small class="text-muted">${data.Runtime}</small></p>
                 <button id="plusButton"type="submit" class="btn btn-primary mb-2">+</button>
-                <p class="card-text"><small class="text-muted">${counter}</small></p>
             </div>
         </div>
     </div>
@@ -41,17 +45,16 @@ function showMovie(data){
     document.getElementById('movieCard').innerHTML = movie;
 
     document.getElementById('plusButton').addEventListener('click',
-                    e => {
-                        e.preventDefault();
-                        addCounter(data.Runtime);
-                    });
+        e => {
+            e.preventDefault();
+            addCounter(data.Runtime);
+        });
 
 }
 
-function addCounter(e){
- 
+function addCounter(e) {
+
     let time = parseInt(e);
     counter += time;
     document.getElementById('Counter').innerHTML = `${counter} min`
 }
-
