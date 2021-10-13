@@ -1,6 +1,8 @@
+let counter =0;
+
 window.onload = function(){
     searchMovie();
-}
+ }
 
 function searchMovie(){
 
@@ -28,12 +30,28 @@ function showMovie(data){
                 <p class="card-text">${data.Director}</p>
                 <p class="card-text"><small class="text-muted">${data.Year}</small></p>
                 <p class="card-text"><small class="text-muted">${data.Runtime}</small></p>
+                <button id="plusButton"type="submit" class="btn btn-primary mb-2">+</button>
+                <p class="card-text"><small class="text-muted">${counter}</small></p>
             </div>
         </div>
     </div>
 </div>
     `
+
     document.getElementById('movieCard').innerHTML = movie;
 
+    document.getElementById('plusButton').addEventListener('click',
+                    e => {
+                        e.preventDefault();
+                        addCounter(data.Runtime);
+                    });
+
+}
+
+function addCounter(e){
+ 
+    let time = parseInt(e);
+    counter += time;
+    document.getElementById('Counter').innerHTML = `${counter} min`
 }
 
